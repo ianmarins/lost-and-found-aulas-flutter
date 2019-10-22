@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:lost_and_found/models/user.dart';
+import 'package:lost_and_found/services/auth.dart';
+import 'package:lost_and_found/views/sign_in_page.dart';
 
 class SignUpPage extends StatefulWidget {
   static const String routeName = '/signup';
@@ -40,7 +43,7 @@ class _SignUpPageState extends State<SignUpPage> {
       controller: _nameController,
       keyboardType: TextInputType.text,
       decoration: InputDecoration(
-        hintText: 'Nome completo',
+        hintText: 'Nome',
         prefixIcon: Icon(Icons.person),
       ),
     );
@@ -81,18 +84,31 @@ class _SignUpPageState extends State<SignUpPage> {
     );
   }
 
-  void _signUp() {}
+  Future _signUp() async {
+    final email = _emailController.text;
+    final password = _passwordController.text;
+    await Auth.signUp(email, password).then(_onResultSignUpSuccess);
+  }
+
+  void _onResultSignUpSuccess(String userId) {
+    final email = _emailController.text;
+    final name = _nameController.text;
+    final user = User(userId: userId, name: name, email: email);
+    Auth.addUser(user);
+  }
 
   Widget _showSignUpButton() {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 32.0),
-      child: RaisedButton(child: Text('LOGIN'), onPressed: _signUp),
+      child: RaisedButton(child: Text('REGISTRAR'), onPressed: _signUp),
     );
   }
 
-  void _signIn() {}
+  void _signIn() {
+    Navigator.of(context).pushReplacementNamed(SignInPage.routeName);
+  }
 
   Widget _showSignInButton() {
-    return FlatButton(child: Text('Realizar Login'), onPressed: _signIn);
+    return FlatButton(child: Text('Login'), onPressed: _signIn);
   }
 }

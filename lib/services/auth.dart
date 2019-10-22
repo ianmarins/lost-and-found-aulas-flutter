@@ -27,23 +27,20 @@ class Auth {
     return user;
   }
 
-  static void addUser(User user) async {
+  static Future<void> addUser(User user) async {
     checkUserExist(user.userId).then((value) {
       if (!value) {
-        print("user ${user.name} ${user.email} added");
         Firestore.instance
             .document("users/${user.userId}")
             .setData(user.toMap());
-      } else {
-        print("user ${user.name} ${user.email} exists");
       }
     });
   }
 
-  static Future<bool> checkUserExist(String userID) async {
+  static Future<bool> checkUserExist(String userId) async {
     bool exists = false;
     try {
-      await Firestore.instance.document("users/$userID").get().then((doc) {
+      await Firestore.instance.document("users/$userId").get().then((doc) {
         exists = doc.exists;
       });
       return exists;

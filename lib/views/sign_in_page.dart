@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lost_and_found/services/auth.dart';
-import 'package:lost_and_found/views/sign_up_page.dart';
+import 'package:lost_and_found/views/home_page.dart';
+import 'package:lost_and_found/views/sign_up.page.dart';
 
 class SignInPage extends StatefulWidget {
   static const String routeName = '/signin';
@@ -74,7 +75,7 @@ class _SignInPageState extends State<SignInPage> {
 
   void _onResultSignInSuccess(String userId) {
     print('SignIn: $userId');
-    //Navigator.of(context).pushReplacementNamed(HomePage.routeName);
+    Navigator.of(context).pushReplacementNamed(HomePage.routeName);
   }
 
   Widget _showSignInButton() {
